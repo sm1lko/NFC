@@ -1,0 +1,56 @@
+  sudo apt-get install git build-essential autoconf libtool libpcsclite-dev
+  sudo apt-get install libusb-dev libcurl4-openssl-dev libjson-c-dev python-pip
+  
+  git clone https://github.com/nfc-tools/libnfc.git
+cd libnfc
+sudo mkdir -p /etc/nfc/devices.d/
+
+sudo cp contrib/libnfc/pn532_uart_on_rpi_3.conf.sample /etc/nfc/devices.d/pn532_uart_on_rpi_3.conf
+
+autoreconf -vis
+./configure --with-drivers=pn532_uart --sysconfdir=/etc --prefix=/usr
+sudo make clean && sudo make install all
+
+ 	
+
+pip install -U nfcpy
+
+--test  	
+
+nfc-scan-device
+
+
+import nfc
+import ndef
+from nfc.tag import tt1
+from nfc.tag import tt2
+from nfc.tag import tt3
+from nfc.tag import tt4
+
+
+tagtypes = (
+    ('uid', nfc.tag.tt1.Type1Tag),
+    ('uid', nfc.tag.tt2.Type2Tag),
+    ('idm', nfc.tag.tt3.Type3Tag),
+    ('uid', nfc.tag.tt4.Type4Tag)
+)
+
+def connected(tag):
+    print tag.type
+    for uid, type in tgtypes:
+        if isinstance(tag, type):
+            print str(attr(tag, uid)).encode("hex")
+            return
+    print "error: unknown tag type"
+
+with nfc.ContactlessFrontend('tty:S0:pn532') as clf:
+    print('waiting for connection')
+    print(clf)
+    tag = clf.connect(rdwr={'on-connect': lambda tag: False})
+    print(str(tag.identifier).encode('hex'))
+    print(tag.type)
+    if not tag.ndef:
+        print('no ndef data') 
+    else:
+        for record in tag.ndef.records:
+            print(record)
