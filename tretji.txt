@@ -1,0 +1,29 @@
+Source Code
+
+Open a terminal on your Raspberry Pi or login remotely using SSH. If Python and Git are not install type the commands below to install it:
+
+sudo apt-get update
+sudo apt-get install build-essential python-dev git
+
+Install Adafruit Python library for PN532:
+
+cd ~
+git clone https://github.com/adafruit/Adafruit_Python_PN532.git
+cd Adafruit_Python_PN532
+sudo python setup.py install
+
+Type the following commands to get the source code of the example for writing and reading data to the NFC cards and RFID tags:
+
+cd ~
+git clone https://github.com/leon-anavi/rpi-examples.git
+cd rpi-examples/PN532/python/
+
+Execute the following commands and follow the instructions to write data contains user ID to NFC card on RFID token:
+
+sudo python rfid-save.py
+
+Execute the following commands to start reading data from NFC cards and RFID tags:
+
+sudo python rfid-scan.py
+
+Press Ctrl + C to terminate the execution of the Python script.
