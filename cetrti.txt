@@ -1,1 +1,1 @@
-https://pypi.org/project/pn532pi/#description
+https://github.com/python/cpython/blob/3.10/Lib/html/parser.py
